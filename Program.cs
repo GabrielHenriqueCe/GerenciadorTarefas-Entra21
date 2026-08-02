@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(connectionString)));
 
 // TODO: Pessoa3 adiciona AddAuthentication + AddCookie aqui
-// TODO: Pessoa2 adiciona AddScoped<ITarefaRepositorio, TarefaRepositorio> aqui
+builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
 
 var app = builder.Build();
 
