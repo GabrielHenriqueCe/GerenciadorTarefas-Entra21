@@ -1,0 +1,43 @@
+﻿@model List<GerenciadorTarefas.MVC.Models.Tarefa>
+
+<form asp-action="Index" method="get">
+    <select name="status" onchange="this.form.submit()">
+        <option value="">Todas</option>
+        <option value="concluida">Concluídas</option>
+        <option value="pendente">Pendentes</option>
+    </select>
+</form>
+
+<h1>Minhas Tarefas</h1>
+
+<p>
+    <a asp-action="Create">+ Nova tarefa</a>
+</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tarefa in Model)
+        {
+            <tr>
+                <td>@tarefa.Titulo</td>
+                <td>@tarefa.Descricao</td>
+                <td>@tarefa.Data.ToString("dd/MM/yyyy")</td>
+                <td>@(tarefa.Concluida ? "Concluída" : "Pendente")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@tarefa.Id">Detalhes</a> |
+                    <a asp-action="Edit" asp-route-id="@tarefa.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@tarefa.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
