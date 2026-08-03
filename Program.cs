@@ -13,7 +13,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         connectionString,
         ServerVersion.AutoDetect(connectionString)));
 
-// TODO: Pessoa3 adiciona AddAuthentication + AddCookie aqui
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Conta/Login";
+        options.AccessDeniedPath = "/Conta/AcessoNegado";
+    });
 builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
 
 var app = builder.Build();
@@ -31,7 +36,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// TODO: Pessoa3 adiciona app.UseAuthentication() aqui, ANTES do UseAuthorization()
+app.UseAuthentication();
 
 app.UseAuthorization();
 
