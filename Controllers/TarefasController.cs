@@ -1,17 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-
 using GerenciadorTarefas.MVC.Data;
-
 using GerenciadorTarefas.MVC.Models;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-using Microsoft.AspNetCore.Authorization;
-
-
 namespace GerenciadorTarefas.MVC.Controllers
-
-
 
 {
     // TODO: Pessoa5 adiciona [Authorize] e filtro por UsuarioId aqui
@@ -29,25 +22,24 @@ namespace GerenciadorTarefas.MVC.Controllers
         public async Task<IActionResult> Index(string? status)
         {
             int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
             var tarefas = await _repositorio.GetAllAsync();
             tarefas = tarefas.Where(t => t.UsuarioId == usuarioId).ToList();
+
             if (status == "concluida")
                 tarefas = tarefas.Where(t => t.Concluida).ToList();
             else if (status == "pendente")
                 tarefas = tarefas.Where(t => !t.Concluida).ToList();
+
             return View(tarefas);
         }
 
         // GET: Tarefas/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
             var tarefa = await _repositorio.GetByIdAsync(id);
 
-            if (tarefa == null || tarefa.UsuarioId != usuarioId)
-                return NotFound();
-
+            if (tarefa == null) return NotFound();
             return View(tarefa);
         }
 
@@ -63,7 +55,9 @@ namespace GerenciadorTarefas.MVC.Controllers
         {
             if (!ModelState.IsValid)
                 return View(tarefa);
+
             tarefa.UsuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
             await _repositorio.AddAsync(tarefa);
             return RedirectToAction(nameof(Index));
         }
@@ -72,7 +66,6 @@ namespace GerenciadorTarefas.MVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
             var tarefa = await _repositorio.GetByIdAsync(id);
 
             if (tarefa == null || tarefa.UsuarioId != usuarioId)
@@ -85,19 +78,12 @@ namespace GerenciadorTarefas.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Tarefa tarefa)
         {
+            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (id != tarefa.Id) return NotFound();
 
-            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-            var tarefaBanco = await _repositorio.GetByIdAsync(id);
-
-            if (tarefaBanco == null || tarefaBanco.UsuarioId != usuarioId)
-                return NotFound();
-
             if (!ModelState.IsValid)
-                return View(tarefa);
+            return View(tarefa);
 
-            tarefa.UsuarioId = usuarioId;
             await _repositorio.UpdateAsync(tarefa);
             return RedirectToAction(nameof(Index));
         }
@@ -105,13 +91,9 @@ namespace GerenciadorTarefas.MVC.Controllers
         // GET: Tarefas/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
             var tarefa = await _repositorio.GetByIdAsync(id);
 
-            if (tarefa == null || tarefa.UsuarioId != usuarioId)
-                return NotFound();
-
+            if (tarefa == null) return NotFound();
             return View(tarefa);
         }
 
@@ -119,16 +101,8 @@ namespace GerenciadorTarefas.MVC.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-            var tarefa = await _repositorio.GetByIdAsync(id);
-
-            if (tarefa == null || tarefa.UsuarioId != usuarioId)
-                return NotFound();
-
             await _repositorio.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

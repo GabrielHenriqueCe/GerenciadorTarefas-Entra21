@@ -1,0 +1,25 @@
+﻿@model GerenciadorTarefas.MVC.Models.Tarefa
+
+<h1>Confirmar exclusão</h1>
+
+<p>Tem certeza que deseja excluir esta tarefa?</p>
+
+<table>
+    <tr>
+        <th>Título</th>
+        <td>@Model.Titulo</td>
+    </tr>
+    <tr>
+        <th>Descrição</th>
+        <td>@Model.Descricao</td>
+    </tr>
+    <tr>
+        <th>Data</th>
+        <td>@Model.Data.ToString("dd/MM/yyyy")</td>
+    </tr>
+</table>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Confirmar exclusão</button>
+</form>

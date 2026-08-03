@@ -19,6 +19,7 @@ builder.Services.AddAuthentication("Cookies")
         options.LoginPath = "/Conta/Login";
         options.AccessDeniedPath = "/Conta/AcessoNegado";
     });
+
 builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
 
 var app = builder.Build();

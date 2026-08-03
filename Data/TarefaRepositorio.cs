@@ -13,7 +13,6 @@ namespace GerenciadorTarefas.MVC.Data
         {
             _context = context;
         }
-
         public async Task<List<Tarefa>> GetAllAsync()
         {
             return await _context.Tarefas.ToListAsync();
@@ -46,5 +45,7 @@ namespace GerenciadorTarefas.MVC.Data
                 await _context.SaveChangesAsync();
             }
         }
+
     }
+
 }
