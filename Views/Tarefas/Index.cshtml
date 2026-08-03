@@ -30,7 +30,7 @@
             <tr>
                 <td>@tarefa.Titulo</td>
                 <td>@tarefa.Descricao</td>
-                <td>@tarefa.Data.ToString("dd/MM/yyyy")</td>
+                <td>@tarefa.Data?.ToString("dd/MM/yyyy")</td>
                 <td>@(tarefa.Concluida ? "Concluída" : "Pendente")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@tarefa.Id">Detalhes</a> |

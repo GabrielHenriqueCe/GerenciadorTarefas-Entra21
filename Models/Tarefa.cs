@@ -16,7 +16,7 @@ namespace GerenciadorTarefas.MVC.Models
 
         [Required(ErrorMessage = "A data é obrigatória.")]
         [DataType(DataType.Date)]
-        public DateTime Data { get; set; }
+        public DateTime? Data { get; set; }
 
         public bool Concluida { get; set; }
 
