@@ -1,0 +1,24 @@
+﻿@model GerenciadorTarefas.MVC.Models.Tarefa
+
+<h1>Detalhes da Tarefa</h1>
+
+<table>
+    <tr>
+        <th>Título</th>
+        <td>@Model.Titulo</td>
+    </tr>
+    <tr>
+        <th>Descrição</th>
+        <td>@Model.Descricao</td>
+    </tr>
+    <tr>
+        <th>Data</th>
+        <td>@Model.Data.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>@(Model.Concluida ? "Concluída" : "Pendente")</td>
+    </tr>
+</table>
+
+<p><a asp-action="Index">Voltar</a></p>
